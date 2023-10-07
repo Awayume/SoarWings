@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question
+    about: Ask a question or discuss of the Discorust.
+    url: https://github.com/Awayume/discorust/discussions.
+
+  - name: Discord Guild
+    about: Join the official Discord guild of the Discorust.
+    url: https://discord.gg/8kDvErkuTS

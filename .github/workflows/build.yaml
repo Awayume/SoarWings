@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - '.git*'
+      - '.github/**'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper/dists
+          key: ${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build
+        run: |
+          ./gradlew assembleDebug --warning-mode all
+          echo "version=$(grep versionName ./app/build.gradle | sed -e 's/versionName//' -e 's/\s//g' -e 's/\"//g')" >> $GITHUB_ENV
+          echo "commit=$(echo ${{ github.sha }} | cut -c 1-7)" >> $GITHUB_ENV
+
+      - name: Archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: SoarWings-v${{ env.version }}@${{ env.commit }}
+          path: './app/build/outputs/apk/debug/app-debug.apk'
