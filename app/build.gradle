@@ -16,6 +16,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    signingConfigs {
+        debug {
+            storeFile file(properties.getProperty("debug.storeFile", "~/.android/debug.keystore"))
+        }
+        release {
+            storeFile file(properties.getProperty("release.storeFile", "~/.android/release.keystore"))
+            storePassword  properties.getProperty("release.storePassword")
+            keyAlias properties.getProperty("release.keyAlias")
+            keyPassword properties.getProperty("release.keyPassword")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true

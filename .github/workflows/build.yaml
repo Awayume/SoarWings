@@ -30,6 +30,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Import keystore
+        run: |
+          echo "$DEBUG_JAVA_KEYSTORE_BASE64_ENCODED" | base64 -d > /tmp/debug.keystore
+          echo "debug.storeFile=/tmp/debug.keystore" >> local.properties
+
+        env:
+          DEBUG_JAVA_KEYSTORE_BASE64_ENCODED: ${{ secrets.DEBUG_JAVA_KEYSTORE_BASE64_ENCODED }}
+
       - name: Build
         run: |
           ./gradlew assembleDebug --warning-mode all

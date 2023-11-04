@@ -32,4 +32,5 @@ jobs:
 
       - name: Run tests
         run: |
+          touch local.properties
           ./gradlew test
