@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SoarWings</string>
+    <string name="accessibility_service_label">SoarWings Application Install Service</string>
+    <string name="accessibility_service_description">This service provides the ability to automatically install applications.</string>
 </resources>
